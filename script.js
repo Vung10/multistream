@@ -2,6 +2,8 @@ const input = document.getElementById("channelInput");
 const addBtn = document.getElementById("addBtn");
 const grid = document.getElementById("streamGrid");
 
+const parent = location.hostname;
+
 addBtn.addEventListener("click", addStream);
 
 function addStream() {
@@ -13,7 +15,6 @@ function addStream() {
 
   stream.innerHTML = `
     <iframe
-      const parent = location.hostname;
       src="https://player.twitch.tv/?channel=${channel}&parent=${parent}"
       height="100%"
       width="100%"
@@ -24,5 +25,6 @@ function addStream() {
   grid.appendChild(stream);
   input.value = "";
 }
+
 
 
