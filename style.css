@@ -136,7 +136,7 @@ header {
 .resizer {
   width: 8px;
   height: 100%;
-  background: #6441a5;
+  background: #ff6b35; /* Orange/brown color - distinct from purple */
   cursor: col-resize;
   flex-shrink: 0;
   position: relative;
@@ -146,7 +146,7 @@ header {
 }
 
 .resizer:hover {
-  background: #7c52c9;
+  background: #ff8c5a;
   width: 12px; /* Slightly wider on hover for easier grabbing */
 }
 
