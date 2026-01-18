@@ -7,12 +7,9 @@ addBtn.addEventListener("click", addStream);
 function addStream() {
   const channel = input.value.trim().toLowerCase();
   if (!channel) return;
-
   const parentDomain = "vung10.github.io";
-
   const stream = document.createElement("div");
   stream.className = "stream";
-
   stream.innerHTML = `
     <iframe
       src="https://player.twitch.tv/?channel=${channel}&parent=${parentDomain}"
@@ -21,10 +18,11 @@ function addStream() {
       allowfullscreen>
     </iframe>
   `;
-
   grid.appendChild(stream);
   input.value = "";
-  // Handle resize corner
+}
+
+// Handle resize corner (OUTSIDE the addStream function)
 grid.addEventListener('mousemove', (e) => {
   const stream = e.target.closest('.stream');
   if (stream) {
@@ -46,8 +44,3 @@ grid.addEventListener('mouseleave', () => {
     s.classList.remove('resizing');
   });
 });
-}
-
-
-
-
