@@ -25,5 +25,27 @@ function addStream() {
   grid.appendChild(stream);
   input.value = "";
 }
+// Handle resize corner
+grid.addEventListener('mousemove', (e) => {
+  const stream = e.target.closest('.stream');
+  if (stream) {
+    const rect = stream.getBoundingClientRect();
+    const isResizeCorner = 
+      e.clientX > rect.right - 30 && 
+      e.clientY > rect.bottom - 30;
+    
+    if (isResizeCorner) {
+      stream.classList.add('resizing');
+    } else {
+      stream.classList.remove('resizing');
+    }
+  }
+});
+
+grid.addEventListener('mouseleave', () => {
+  document.querySelectorAll('.stream.resizing').forEach(s => {
+    s.classList.remove('resizing');
+  });
+});
 
 
