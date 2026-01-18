@@ -8,6 +8,12 @@ function addStream() {
   const channel = input.value.trim().toLowerCase();
   if (!channel) return;
   const parentDomain = "vung10.github.io";
+  
+  // Create wrapper box
+  const wrapper = document.createElement("div");
+  wrapper.className = "stream-wrapper";
+  
+  // Create stream container inside
   const stream = document.createElement("div");
   stream.className = "stream";
   stream.innerHTML = `
@@ -18,29 +24,8 @@ function addStream() {
       allowfullscreen>
     </iframe>
   `;
-  grid.appendChild(stream);
+  
+  wrapper.appendChild(stream);
+  grid.appendChild(wrapper);
   input.value = "";
 }
-
-// Handle resize corner (OUTSIDE the addStream function)
-grid.addEventListener('mousemove', (e) => {
-  const stream = e.target.closest('.stream');
-  if (stream) {
-    const rect = stream.getBoundingClientRect();
-    const isResizeCorner = 
-      e.clientX > rect.right - 30 && 
-      e.clientY > rect.bottom - 30;
-    
-    if (isResizeCorner) {
-      stream.classList.add('resizing');
-    } else {
-      stream.classList.remove('resizing');
-    }
-  }
-});
-
-grid.addEventListener('mouseleave', () => {
-  document.querySelectorAll('.stream.resizing').forEach(s => {
-    s.classList.remove('resizing');
-  });
-});
