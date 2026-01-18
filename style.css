@@ -141,10 +141,13 @@ header {
   flex-shrink: 0;
   position: relative;
   z-index: 10;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .resizer:hover {
   background: #7c52c9;
+  width: 12px; /* Slightly wider on hover for easier grabbing */
 }
 
 .stream .chat-iframe {
