@@ -8,7 +8,7 @@ function addStream() {
   const channel = input.value.trim().toLowerCase();
   if (!channel) return;
 
-  const parentDomain = window.location.hostname; // dynamically set parent
+  const parentDomain = "vung10.github.io";
 
   const stream = document.createElement("div");
   stream.className = "stream";
@@ -25,4 +25,5 @@ function addStream() {
   grid.appendChild(stream);
   input.value = "";
 }
+
 
