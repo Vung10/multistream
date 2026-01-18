@@ -8,13 +8,14 @@ function addStream() {
   const channel = input.value.trim().toLowerCase();
   if (!channel) return;
 
+  const parentDomain = window.location.hostname; // dynamically set parent
+
   const stream = document.createElement("div");
   stream.className = "stream";
 
   stream.innerHTML = `
     <iframe
-      src="https://player.twitch.tv/?channel=${channel}&parent=vung10.github.io
-"
+      src="https://player.twitch.tv/?channel=${channel}&parent=${parentDomain}"
       height="100%"
       width="100%"
       allowfullscreen>
@@ -24,5 +25,4 @@ function addStream() {
   grid.appendChild(stream);
   input.value = "";
 }
-
 
