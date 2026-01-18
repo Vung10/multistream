@@ -17,21 +17,29 @@ header {
   gap: 8px;
   padding: 8px;
 }
-.stream {
+/* Wrapper box - this is what you resize */
+.stream-wrapper {
   position: relative;
-  background: black;
-  /* allow resizing */
+  background: #6441a5; /* Twitch purple border */
+  padding: 8px; /* The "inch" of border showing */
   resize: both;
   overflow: auto;
   min-width: 200px;
   min-height: 100px;
-  /* initial size */
   width: 400px;
   height: 225px;
-  /* prevent text selection/highlighting */
   user-select: none;
   -webkit-user-select: none;
 }
+
+/* Stream container - fills the wrapper with padding */
+.stream {
+  width: 100%;
+  height: 100%;
+  background: black;
+  position: relative;
+}
+
 .stream iframe {
   width: 100%;
   height: 100%;
