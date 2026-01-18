@@ -18,6 +18,15 @@ function addStream() {
   wrapper.style.left = (20 + existingStreams * 30) + 'px';
   wrapper.style.top = (20 + existingStreams * 30) + 'px';
   
+  // Create remove button
+  const removeBtn = document.createElement("button");
+  removeBtn.className = "remove-btn";
+  removeBtn.innerHTML = "×";
+  removeBtn.onclick = (e) => {
+    e.stopPropagation(); // Prevent dragging when clicking remove
+    wrapper.remove();
+  };
+  
   // Create stream container inside
   const stream = document.createElement("div");
   stream.className = "stream";
@@ -30,6 +39,7 @@ function addStream() {
     </iframe>
   `;
   
+  wrapper.appendChild(removeBtn);
   wrapper.appendChild(stream);
   grid.appendChild(wrapper);
   input.value = "";
