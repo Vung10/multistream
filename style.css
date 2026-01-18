@@ -136,13 +136,14 @@ header {
   border: none;
   background: #18181b;
   position: relative;
-}
-
-.stream.side-by-side .chat-transparent {
-  display: none !important;
+  z-index: 1;
 }
 
 /* Overlay mode */
+.stream.overlay {
+  display: block;
+}
+
 .stream.overlay .video-iframe {
   width: 100%;
   height: 100%;
@@ -151,16 +152,22 @@ header {
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 1;
 }
 
 .stream.overlay .chat-normal {
   display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 .stream.overlay .chat-transparent {
   width: 350px;
   height: 100%;
   display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
   border: none;
   background: transparent;
   position: absolute;
