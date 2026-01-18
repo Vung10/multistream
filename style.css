@@ -129,13 +129,17 @@ header {
   position: relative;
 }
 
-.stream.side-by-side .chat-iframe {
+.stream.side-by-side .chat-normal {
   width: 30%;
   height: 100%;
   display: block;
   border: none;
-  background: transparent;
+  background: #18181b;
   position: relative;
+}
+
+.stream.side-by-side .chat-transparent {
+  display: none !important;
 }
 
 /* Overlay mode */
@@ -149,10 +153,14 @@ header {
   left: 0;
 }
 
-.stream.overlay .chat-iframe {
+.stream.overlay .chat-normal {
+  display: none !important;
+}
+
+.stream.overlay .chat-transparent {
   width: 350px;
   height: 100%;
-  display: block;
+  display: block !important;
   border: none;
   background: transparent;
   position: absolute;
