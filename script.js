@@ -24,8 +24,7 @@ function addStream() {
 
   grid.appendChild(stream);
   input.value = "";
-}
-// Handle resize corner
+  // Handle resize corner
 grid.addEventListener('mousemove', (e) => {
   const stream = e.target.closest('.stream');
   if (stream) {
@@ -47,5 +46,8 @@ grid.addEventListener('mouseleave', () => {
     s.classList.remove('resizing');
   });
 });
+}
+
+
 
 
