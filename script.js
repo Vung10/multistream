@@ -35,12 +35,21 @@ function addStream() {
   toggleChatBtn.onclick = (e) => {
     e.stopPropagation();
     const stream = wrapper.querySelector('.stream');
+    const normalChat = stream.querySelector('.chat-normal');
+    const transparentChat = stream.querySelector('.chat-transparent');
+    
     if (stream.classList.contains('overlay')) {
+      // Switch to side-by-side
       stream.classList.remove('overlay');
       stream.classList.add('side-by-side');
+      normalChat.style.display = 'block';
+      transparentChat.style.display = 'none';
     } else {
+      // Switch to overlay
       stream.classList.remove('side-by-side');
       stream.classList.add('overlay');
+      normalChat.style.display = 'none';
+      transparentChat.style.display = 'block';
     }
   };
   
@@ -56,10 +65,17 @@ function addStream() {
       allowfullscreen>
     </iframe>
     <iframe
-      class="chat-iframe"
-      src="https://www.twitch.tv/embed/${channel}/chat?parent=${parentDomain}&darkpopout"
+      class="chat-iframe chat-normal"
+      src="https://www.twitch.tv/embed/${channel}/chat?parent=${parentDomain}"
       height="100%"
       width="100%">
+    </iframe>
+    <iframe
+      class="chat-iframe chat-transparent"
+      src="https://www.twitch.tv/popout/${channel}/chat?popout="
+      height="100%"
+      width="100%"
+      style="display: none;">
     </iframe>
   `;
   
