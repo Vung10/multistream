@@ -129,17 +129,16 @@ header {
   position: relative;
 }
 
-.stream.side-by-side .chat-normal {
+.stream.side-by-side .chat-iframe {
   width: 30%;
   height: 100%;
   display: block;
   border: none;
   background: #18181b;
   position: relative;
-  z-index: 1;
 }
 
-/* Overlay mode */
+/* Overlay mode - transparent chat */
 .stream.overlay {
   display: block;
 }
@@ -152,22 +151,12 @@ header {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 1;
 }
 
-.stream.overlay .chat-normal {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
-
-.stream.overlay .chat-transparent {
-  width: 350px;
+.stream.overlay .chat-iframe {
+  width: 340px;
   height: 100%;
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+  display: block;
   border: none;
   background: transparent;
   position: absolute;
@@ -175,6 +164,8 @@ header {
   right: 0;
   z-index: 5;
   pointer-events: auto;
+  /* Make the iframe itself semi-transparent to see video behind */
+  opacity: 0.95;
 }
 
 /* Make iframe non-interactive when resizing */
