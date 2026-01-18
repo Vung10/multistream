@@ -1,138 +1,200 @@
-const input = document.getElementById("channelInput");
-const addBtn = document.getElementById("addBtn");
-const grid = document.getElementById("streamGrid");
-
-addBtn.addEventListener("click", addStream);
-
-function addStream() {
-  const channel = input.value.trim().toLowerCase();
-  if (!channel) return;
-  const parentDomain = "vung10.github.io";
-  
-  // Create wrapper box
-  const wrapper = document.createElement("div");
-  wrapper.className = "stream-wrapper";
-  
-  // Position new streams offset from each other
-  const existingStreams = grid.querySelectorAll('.stream-wrapper').length;
-  wrapper.style.left = (20 + existingStreams * 30) + 'px';
-  wrapper.style.top = (20 + existingStreams * 30) + 'px';
-  
-  // Create remove button
-  const removeBtn = document.createElement("button");
-  removeBtn.className = "remove-btn";
-  removeBtn.innerHTML = "×";
-  removeBtn.onclick = (e) => {
-    e.stopPropagation();
-    wrapper.remove();
-  };
-  
-  // Create toggle chat mode button
-  const toggleChatBtn = document.createElement("button");
-  toggleChatBtn.className = "toggle-chat-btn";
-  toggleChatBtn.innerHTML = "⇄";
-  toggleChatBtn.title = "Toggle chat mode";
-  toggleChatBtn.onclick = (e) => {
-    e.stopPropagation();
-    const stream = wrapper.querySelector('.stream');
-    const normalChat = stream.querySelector('.chat-normal');
-    const transparentChat = stream.querySelector('.chat-transparent');
-    
-    if (stream.classList.contains('overlay')) {
-      // Switch to side-by-side
-      stream.classList.remove('overlay');
-      stream.classList.add('side-by-side');
-      normalChat.style.display = 'block';
-      transparentChat.style.display = 'none';
-    } else {
-      // Switch to overlay
-      stream.classList.remove('side-by-side');
-      stream.classList.add('overlay');
-      normalChat.style.display = 'none';
-      transparentChat.style.display = 'block';
-    }
-  };
-  
-  // Create stream container inside
-  const stream = document.createElement("div");
-  stream.className = "stream side-by-side"; // Default to side-by-side mode
-  stream.innerHTML = `
-    <iframe
-      class="video-iframe"
-      src="https://player.twitch.tv/?channel=${channel}&parent=${parentDomain}"
-      height="100%"
-      width="100%"
-      allowfullscreen>
-    </iframe>
-    <iframe
-      class="chat-iframe chat-normal"
-      src="https://www.twitch.tv/embed/${channel}/chat?parent=${parentDomain}"
-      height="100%"
-      width="100%">
-    </iframe>
-    <iframe
-      class="chat-iframe chat-transparent"
-      src="https://www.twitch.tv/popout/${channel}/chat?popout="
-      height="100%"
-      width="100%"
-      style="display: none;">
-    </iframe>
-  `;
-  
-  wrapper.appendChild(removeBtn);
-  wrapper.appendChild(toggleChatBtn);
-  wrapper.appendChild(stream);
-  grid.appendChild(wrapper);
-  input.value = "";
-  
-  // Make it draggable
-  makeDraggable(wrapper);
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: #0e0e10;
+  color: white;
+}
+header {
+  padding: 12px;
+  background: #18181b;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+#streamGrid {
+  display: block; /* Changed from grid to allow free positioning */
+  position: relative;
+  padding: 8px;
+  min-height: calc(100vh - 60px); /* Full height minus header */
+}
+/* Wrapper box - this is what you resize */
+.stream-wrapper {
+  position: absolute;
+  background: #6441a5;
+  padding: 8px;
+  resize: both;
+  overflow: auto;
+  min-width: 300px;
+  min-height: 150px;
+  width: 800px; /* Wider for full video + overlay chat */
+  height: 450px;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: move;
 }
 
-// Drag functionality
-function makeDraggable(element) {
-  let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  let isDragging = false;
-  
-  element.onmousedown = dragMouseDown;
-  
-  function dragMouseDown(e) {
-    // Don't drag if clicking on resize handle area
-    const rect = element.getBoundingClientRect();
-    const isResizeArea = 
-      e.clientX > rect.right - 20 && 
-      e.clientY > rect.bottom - 20;
-    
-    if (isResizeArea) return;
-    
-    isDragging = true;
-    e.preventDefault();
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    document.onmouseup = closeDragElement;
-    document.onmousemove = elementDrag;
-    
-    // Disable iframe interaction while dragging
-    element.querySelector('iframe').style.pointerEvents = 'none';
-  }
-  
-  function elementDrag(e) {
-    if (!isDragging) return;
-    e.preventDefault();
-    pos1 = pos3 - e.clientX;
-    pos2 = pos4 - e.clientY;
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    element.style.top = (element.offsetTop - pos2) + "px";
-    element.style.left = (element.offsetLeft - pos1) + "px";
-  }
-  
-  function closeDragElement() {
-    isDragging = false;
-    document.onmouseup = null;
-    document.onmousemove = null;
-    
-    // Re-enable iframe interaction
-    element.querySelector('iframe').style.pointerEvents = 'auto';
-  }
+/* Remove button */
+.remove-btn {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 24px;
+  height: 24px;
+  background: rgba(255, 0, 0, 0.7);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 12;
+  font-size: 16px;
+  line-height: 1;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-btn:hover {
+  background: rgba(255, 0, 0, 0.9);
+}
+
+/* Toggle chat mode button */
+.toggle-chat-btn {
+  position: absolute;
+  top: 28px;
+  right: 2px;
+  width: 24px;
+  height: 24px;
+  background: rgba(100, 65, 165, 0.7);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 12;
+  font-size: 12px;
+  line-height: 1;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-chat-btn:hover {
+  background: rgba(100, 65, 165, 0.9);
+}
+
+/* Drag handle at top */
+.stream-wrapper::before {
+  content: '⋮⋮';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 8px;
+  background: rgba(255,255,255,0.3);
+  cursor: move;
+  z-index: 11;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: white;
+}
+
+.stream-wrapper:hover::before {
+  background: rgba(255,255,255,0.5);
+}
+
+/* Stream container - fills the wrapper with padding */
+.stream {
+  width: 100%;
+  height: 100%;
+  background: black;
+  position: relative;
+  display: block;
+}
+
+/* Side-by-side mode (default) */
+.stream.side-by-side {
+  display: flex;
+}
+
+.stream.side-by-side .video-iframe {
+  flex: 1;
+  width: 70%;
+  height: 100%;
+  display: block;
+  border: none;
+  position: relative;
+}
+
+.stream.side-by-side .chat-normal {
+  width: 30%;
+  height: 100%;
+  display: block;
+  border: none;
+  background: #18181b;
+  position: relative;
+  z-index: 1;
+}
+
+/* Overlay mode */
+.stream.overlay {
+  display: block;
+}
+
+.stream.overlay .video-iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.stream.overlay .chat-normal {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.stream.overlay .chat-transparent {
+  width: 350px;
+  height: 100%;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  border: none;
+  background: transparent;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 5;
+  pointer-events: auto;
+}
+
+/* Make iframe non-interactive when resizing */
+.stream.resizing iframe {
+  pointer-events: none;
+}
+
+/* Larger resize handle */
+.stream::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  cursor: nwse-resize;
+  background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,0.3) 50%);
+  z-index: 10;
+}
+
+.stream:hover::after {
+  background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,0.5) 50%);
 }
