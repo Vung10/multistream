@@ -115,57 +115,50 @@ header {
   display: block;
 }
 
-/* Side-by-side mode (default) */
-.stream.side-by-side {
+/* Stream container - fills the wrapper with padding */
+.stream {
+  width: 100%;
+  height: 100%;
+  background: black;
+  position: relative;
   display: flex;
 }
 
-.stream.side-by-side .video-iframe {
-  flex: 1;
+.stream .video-iframe {
   width: 70%;
   height: 100%;
   display: block;
   border: none;
-  position: relative;
+  flex-shrink: 0;
 }
 
-.stream.side-by-side .chat-iframe {
+/* Resizer divider */
+.resizer {
+  width: 8px;
+  height: 100%;
+  background: #6441a5;
+  cursor: col-resize;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+
+.resizer:hover {
+  background: #7c52c9;
+}
+
+.stream .chat-iframe {
   width: 30%;
   height: 100%;
   display: block;
   border: none;
   background: #18181b;
-  position: relative;
+  flex-shrink: 0;
 }
 
-/* Overlay mode - transparent chat */
-.stream.overlay {
-  display: block;
-}
-
-.stream.overlay .video-iframe {
-  width: 100%;
-  height: 100%;
-  display: block;
-  border: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.stream.overlay .chat-iframe {
-  width: 340px;
-  height: 100%;
-  display: block;
-  border: none;
-  background: transparent;
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 5;
-  pointer-events: auto;
-  /* Make the iframe itself semi-transparent to see video behind */
-  opacity: 0.95;
+/* Hidden chat mode */
+.stream.chat-hidden .video-iframe {
+  width: 100% !important;
 }
 
 /* Make iframe non-interactive when resizing */
