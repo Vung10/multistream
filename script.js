@@ -13,7 +13,8 @@ function addStream() {
 
   stream.innerHTML = `
     <iframe
-      src="https://player.twitch.tv/?channel=${channel}&parent=vung10.github.io"
+      const parent = location.hostname;
+      src="https://player.twitch.tv/?channel=${channel}&parent=${parent}"
       height="100%"
       width="100%"
       allowfullscreen>
@@ -23,4 +24,5 @@ function addStream() {
   grid.appendChild(stream);
   input.value = "";
 }
+
 
