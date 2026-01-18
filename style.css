@@ -36,6 +36,11 @@ header {
   border: none;
 }
 
+/* Make iframe non-interactive when resizing */
+.stream.resizing iframe {
+  pointer-events: none;
+}
+
 /* Larger resize handle */
 .stream::after {
   content: '';
@@ -47,7 +52,6 @@ header {
   cursor: nwse-resize;
   background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,0.3) 50%);
   z-index: 10;
-  pointer-events: none; /* Let the resize still work through it */
 }
 
 .stream:hover::after {
