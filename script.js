@@ -23,23 +23,48 @@ function addStream() {
   removeBtn.className = "remove-btn";
   removeBtn.innerHTML = "×";
   removeBtn.onclick = (e) => {
-    e.stopPropagation(); // Prevent dragging when clicking remove
+    e.stopPropagation();
     wrapper.remove();
+  };
+  
+  // Create toggle chat mode button
+  const toggleChatBtn = document.createElement("button");
+  toggleChatBtn.className = "toggle-chat-btn";
+  toggleChatBtn.innerHTML = "⇄";
+  toggleChatBtn.title = "Toggle chat mode";
+  toggleChatBtn.onclick = (e) => {
+    e.stopPropagation();
+    const stream = wrapper.querySelector('.stream');
+    if (stream.classList.contains('overlay')) {
+      stream.classList.remove('overlay');
+      stream.classList.add('side-by-side');
+    } else {
+      stream.classList.remove('side-by-side');
+      stream.classList.add('overlay');
+    }
   };
   
   // Create stream container inside
   const stream = document.createElement("div");
-  stream.className = "stream";
+  stream.className = "stream side-by-side"; // Default to side-by-side mode
   stream.innerHTML = `
     <iframe
+      class="video-iframe"
       src="https://player.twitch.tv/?channel=${channel}&parent=${parentDomain}"
       height="100%"
       width="100%"
       allowfullscreen>
     </iframe>
+    <iframe
+      class="chat-iframe"
+      src="https://www.twitch.tv/embed/${channel}/chat?parent=${parentDomain}&darkpopout"
+      height="100%"
+      width="100%">
+    </iframe>
   `;
   
   wrapper.appendChild(removeBtn);
+  wrapper.appendChild(toggleChatBtn);
   wrapper.appendChild(stream);
   grid.appendChild(wrapper);
   input.value = "";
