@@ -28,6 +28,9 @@ header {
   /* initial size */
   width: 400px;
   height: 225px;
+  /* prevent text selection/highlighting */
+  user-select: none;
+  -webkit-user-select: none;
 }
 .stream iframe {
   width: 100%;
