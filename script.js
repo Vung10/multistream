@@ -31,25 +31,29 @@ function addStream() {
   const toggleChatBtn = document.createElement("button");
   toggleChatBtn.className = "toggle-chat-btn";
   toggleChatBtn.innerHTML = "⇄";
-  toggleChatBtn.title = "Toggle chat mode";
+  toggleChatBtn.title = "Toggle chat visibility";
   toggleChatBtn.onclick = (e) => {
     e.stopPropagation();
     const stream = wrapper.querySelector('.stream');
+    const chatIframe = stream.querySelector('.chat-iframe');
+    const resizer = stream.querySelector('.resizer');
     
-    if (stream.classList.contains('overlay')) {
-      // Switch to side-by-side
-      stream.classList.remove('overlay');
-      stream.classList.add('side-by-side');
+    if (stream.classList.contains('chat-hidden')) {
+      // Show chat
+      stream.classList.remove('chat-hidden');
+      chatIframe.style.display = 'block';
+      resizer.style.display = 'block';
     } else {
-      // Switch to overlay
-      stream.classList.remove('side-by-side');
-      stream.classList.add('overlay');
+      // Hide chat
+      stream.classList.add('chat-hidden');
+      chatIframe.style.display = 'none';
+      resizer.style.display = 'none';
     }
   };
   
   // Create stream container inside
   const stream = document.createElement("div");
-  stream.className = "stream side-by-side"; // Default to side-by-side mode
+  stream.className = "stream";
   stream.innerHTML = `
     <iframe
       class="video-iframe"
@@ -58,6 +62,7 @@ function addStream() {
       width="100%"
       allowfullscreen>
     </iframe>
+    <div class="resizer"></div>
     <iframe
       class="chat-iframe"
       src="https://www.twitch.tv/embed/${channel}/chat?parent=${parentDomain}&darkpopout"
@@ -74,6 +79,9 @@ function addStream() {
   
   // Make it draggable
   makeDraggable(wrapper);
+  
+  // Make chat resizable
+  makeResizable(stream);
 }
 
 // Drag functionality
