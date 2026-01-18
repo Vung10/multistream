@@ -22,6 +22,16 @@ header {
 
 .stream {
   position: relative;
-  aspect-ratio: 16 / 9;
   background: black;
+
+  /* allow resizing */
+  resize: both;          /* allows horizontal & vertical resizing */
+  overflow: auto;        /* content scrolls if needed */
+  min-width: 200px;      /* optional: minimum size */
+  min-height: 100px;     /* optional: minimum size */
+
+  /* initial size */
+  width: 400px;
+  height: 225px;         /* 16:9 ratio initially */
 }
+
