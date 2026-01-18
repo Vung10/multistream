@@ -37,17 +37,18 @@ function addStream() {
     const stream = wrapper.querySelector('.stream');
     const chatIframe = stream.querySelector('.chat-iframe');
     const resizer = stream.querySelector('.resizer');
+    const videoIframe = stream.querySelector('.video-iframe');
     
-    if (stream.classList.contains('chat-hidden')) {
+    if (chatIframe.style.display === 'none') {
       // Show chat
-      stream.classList.remove('chat-hidden');
       chatIframe.style.display = 'block';
       resizer.style.display = 'block';
+      videoIframe.style.width = '70%';
     } else {
       // Hide chat
-      stream.classList.add('chat-hidden');
       chatIframe.style.display = 'none';
       resizer.style.display = 'none';
+      videoIframe.style.width = '100%';
     }
   };
   
@@ -92,11 +93,17 @@ function makeDraggable(element) {
   element.onmousedown = dragMouseDown;
   
   function dragMouseDown(e) {
-    // Don't drag if clicking on resize handle area
+    // Don't drag if clicking on resize handle area (bottom-right)
     const rect = element.getBoundingClientRect();
     const isResizeArea = 
       e.clientX > rect.right - 20 && 
       e.clientY > rect.bottom - 20;
+    
+    // Don't drag if clicking on the resizer bar
+    if (e.target.classList.contains('resizer')) return;
+    
+    // Don't drag if clicking inside iframes
+    if (e.target.tagName === 'IFRAME') return;
     
     if (isResizeArea) return;
     
